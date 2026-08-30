@@ -1,25 +1,38 @@
+"use client";
+
+import { useSettings } from "@/context/SettingsContext";
+import translations from "@/data/translations";
+
 import "./Hero.css";
 
 const Hero = () => {
+  const { language } = useSettings();
+
+  const text = translations[language].hero;
+
   return (
     <section className="hero" id="home">
       <div className="hero-container">
         <div className="hero-content">
-          <p className="hero-eyebrow">Software Engineer</p>
+          <p className="hero-eyebrow">
+            {text.eyebrow}
+          </p>
 
           <h1 className="hero-title">
-            Building reliable software for
-            <span> intelligent systems.</span>
+            {text.titleBefore}
+            <span> {text.titleHighlight}</span>
           </h1>
 
           <p className="hero-description">
-            I build software for industrial automation, real-time systems,
-            data-driven applications, and intelligent engineering solutions.
+            {text.description}
           </p>
 
           <div className="hero-actions">
-            <a href="#projects" className="hero-button hero-button-primary">
-              View Projects
+            <a
+              href="#projects"
+              className="hero-button hero-button-primary"
+            >
+              {text.viewProjects}
             </a>
 
             <a
@@ -28,7 +41,7 @@ const Hero = () => {
               target="_blank"
               rel="noopener noreferrer"
             >
-              View Resume
+              {text.viewResume}
             </a>
           </div>
 
@@ -72,36 +85,30 @@ const Hero = () => {
                 </span>
 
                 <span className="terminal-symbol">:</span>
-
-                <span className="terminal-path">
-                  ~
-                </span>
-
-                <span className="terminal-symbol">
-                  $
-                </span>
+                <span className="terminal-path">~</span>
+                <span className="terminal-symbol">$</span>
 
                 <span className="terminal-command">
-                  whoami
+                  {text.terminal.whoami}
                 </span>
               </div>
 
               <div className="terminal-output">
                 <p>
                   <span className="terminal-key">
-                    name:
+                    {text.terminal.nameLabel}
                   </span>{" "}
                   <span className="terminal-value">
-                    Fuzaimi Fauzi
+                    {text.terminal.name}
                   </span>
                 </p>
 
                 <p>
                   <span className="terminal-key">
-                    role:
+                    {text.terminal.roleLabel}
                   </span>{" "}
                   <span className="terminal-value">
-                    Software Engineer
+                    {text.terminal.role}
                   </span>
                 </p>
               </div>
@@ -111,43 +118,24 @@ const Hero = () => {
                   fuzaimi@portfolio
                 </span>
 
-                <span className="terminal-symbol">
-                  :
-                </span>
-
-                <span className="terminal-path">
-                  ~
-                </span>
-
-                <span className="terminal-symbol">
-                  $
-                </span>
+                <span className="terminal-symbol">:</span>
+                <span className="terminal-path">~</span>
+                <span className="terminal-symbol">$</span>
 
                 <span className="terminal-command">
-                  focus
+                  {text.terminal.focusCommand}
                 </span>
               </div>
 
               <div className="terminal-output">
-                <p className="terminal-focus-item">
-                  Automation
-                </p>
-
-                <p className="terminal-focus-item">
-                  Semiconductor
-                </p>
-
-                <p className="terminal-focus-item">
-                  Computer Vision
-                </p>
-
-                <p className="terminal-focus-item">
-                  Web Development
-                </p>
-
-                <p className="terminal-focus-item">
-                  Artificial Intelligence
-                </p>
+                {text.terminal.focus.map((item) => (
+                  <p
+                    key={item}
+                    className="terminal-focus-item"
+                  >
+                    {item}
+                  </p>
+                ))}
               </div>
 
               <div className="terminal-line terminal-command-gap">
@@ -155,31 +143,21 @@ const Hero = () => {
                   fuzaimi@portfolio
                 </span>
 
-                <span className="terminal-symbol">
-                  :
-                </span>
-
-                <span className="terminal-path">
-                  ~
-                </span>
-
-                <span className="terminal-symbol">
-                  $
-                </span>
+                <span className="terminal-symbol">:</span>
+                <span className="terminal-path">~</span>
+                <span className="terminal-symbol">$</span>
 
                 <span className="terminal-command">
-                  philosophy
+                  {text.terminal.philosophyCommand}
                 </span>
               </div>
 
               <div className="terminal-output terminal-quote">
-                <p>
-                  "Error is not a fallback.
-                </p>
-
-                <p>
-                  It is a learning process."
-                </p>
+                {text.terminal.philosophy.map((line) => (
+                  <p key={line}>
+                    {line}
+                  </p>
+                ))}
               </div>
 
               <div className="terminal-line terminal-command-gap">
@@ -187,17 +165,9 @@ const Hero = () => {
                   fuzaimi@portfolio
                 </span>
 
-                <span className="terminal-symbol">
-                  :
-                </span>
-
-                <span className="terminal-path">
-                  ~
-                </span>
-
-                <span className="terminal-symbol">
-                  $
-                </span>
+                <span className="terminal-symbol">:</span>
+                <span className="terminal-path">~</span>
+                <span className="terminal-symbol">$</span>
 
                 <span className="terminal-cursor"></span>
               </div>
