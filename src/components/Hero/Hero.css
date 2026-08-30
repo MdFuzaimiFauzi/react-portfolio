@@ -1,0 +1,467 @@
+.hero {
+  display: flex;
+  align-items: center;
+
+  min-height: calc(100vh - 80px);
+
+  padding: 80px 0;
+
+  overflow: hidden;
+}
+
+.hero-container {
+  display: grid;
+
+  grid-template-columns: minmax(0, 1.1fr) minmax(360px, 0.9fr);
+
+  align-items: center;
+
+  gap: 72px;
+
+  width: min(100% - 32px, var(--max-width));
+
+  margin-inline: auto;
+}
+
+.hero-content {
+  min-width: 0;
+}
+
+.hero-eyebrow {
+  margin-bottom: 18px;
+
+  color: var(--accent);
+
+  font-size: 0.9rem;
+  font-weight: 600;
+
+  letter-spacing: 0.12em;
+
+  text-transform: uppercase;
+}
+
+.hero-title {
+  max-width: 760px;
+
+  color: var(--text-primary);
+
+  font-size: clamp(3rem, 6vw, 5.5rem);
+
+  line-height: 1;
+
+  letter-spacing: -0.055em;
+}
+
+.hero-title span {
+  color: var(--accent);
+}
+
+.hero-description {
+  max-width: 650px;
+
+  margin-top: 28px;
+
+  color: var(--text-secondary);
+
+  font-size: 1.08rem;
+
+  line-height: 1.8;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+
+  gap: 14px;
+
+  margin-top: 36px;
+}
+
+.hero-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 48px;
+
+  padding: 0 22px;
+
+  border: 1px solid transparent;
+  border-radius: 9px;
+
+  font-size: 0.95rem;
+  font-weight: 600;
+
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.hero-button:hover {
+  transform: translateY(-2px);
+}
+
+.hero-button-primary {
+  color: var(--background);
+
+  background-color: var(--accent);
+}
+
+.hero-button-primary:hover {
+  background-color: var(--accent-hover);
+}
+
+.hero-button-secondary {
+  color: var(--text-primary);
+
+  border-color: var(--border);
+
+  background-color: var(--surface);
+}
+
+.hero-button-secondary:hover {
+  border-color: var(--accent);
+
+  background-color: var(--surface-light);
+}
+
+.hero-socials {
+  display: flex;
+  flex-wrap: wrap;
+
+  gap: 24px;
+
+  margin-top: 26px;
+}
+
+.hero-socials a {
+  color: var(--text-secondary);
+
+  font-size: 0.92rem;
+  font-weight: 500;
+
+  transition: color 0.2s ease;
+}
+
+.hero-socials a:hover {
+  color: var(--accent);
+}
+
+/* =========================
+   TERMINAL
+========================= */
+
+.hero-visual {
+  position: relative;
+
+  min-width: 0;
+}
+
+.hero-visual::before {
+  position: absolute;
+
+  top: 50%;
+  left: 50%;
+
+  z-index: -1;
+
+  width: 340px;
+  height: 340px;
+
+  content: "";
+
+  border-radius: 50%;
+
+  background-color: rgba(56, 189, 248, 0.1);
+
+  filter: blur(90px);
+
+  transform: translate(-50%, -50%);
+}
+
+.terminal {
+  overflow: hidden;
+
+  border: 1px solid var(--border);
+  border-radius: 16px;
+
+  background-color: #0d1117;
+
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.32);
+}
+
+.terminal-header {
+  display: flex;
+  align-items: center;
+
+  min-height: 46px;
+
+  padding: 0 16px;
+
+  border-bottom: 1px solid var(--border);
+
+  background-color: #11161d;
+}
+
+.terminal-buttons {
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
+}
+
+.terminal-button {
+  width: 11px;
+  height: 11px;
+
+  border-radius: 50%;
+
+  background-color: #5c6370;
+}
+
+.terminal-title {
+  margin-left: auto;
+  margin-right: auto;
+
+  color: var(--text-secondary);
+
+  font-family:
+    "Courier New",
+    Courier,
+    monospace;
+
+  font-size: 0.78rem;
+}
+
+.terminal-body {
+  padding: 28px;
+
+  font-family:
+    "Courier New",
+    Courier,
+    monospace;
+
+  font-size: 0.9rem;
+
+  line-height: 1.8;
+}
+
+.terminal-line {
+  display: flex;
+  flex-wrap: wrap;
+
+  align-items: center;
+
+  gap: 5px;
+}
+
+.terminal-command-gap {
+  margin-top: 22px;
+}
+
+.terminal-user {
+  color: #22c55e;
+
+  font-weight: 600;
+}
+
+.terminal-symbol {
+  color: var(--text-secondary);
+}
+
+.terminal-path {
+  color: #38bdf8;
+
+  font-weight: 600;
+}
+
+.terminal-command {
+  color: #f8fafc;
+}
+
+.terminal-output {
+  margin-top: 8px;
+  margin-left: 18px;
+
+  color: #cbd5e1;
+}
+
+.terminal-key {
+  color: #c084fc;
+}
+
+.terminal-value {
+  color: #f8fafc;
+}
+
+.terminal-focus-item {
+  color: #fbbf24;
+}
+
+.terminal-focus-item::before {
+  margin-right: 10px;
+
+  content: "›";
+
+  color: #38bdf8;
+}
+
+.terminal-quote {
+  color: #a7f3d0;
+
+  font-style: italic;
+}
+
+.terminal-cursor {
+  display: inline-block;
+
+  width: 8px;
+  height: 17px;
+
+  margin-left: 2px;
+
+  background-color: #f8fafc;
+
+  animation: terminal-blink 1s steps(1) infinite;
+}
+
+@keyframes terminal-blink {
+  0%,
+  50% {
+    opacity: 1;
+  }
+
+  51%,
+  100% {
+    opacity: 0;
+  }
+}
+
+/* =========================
+   TABLET
+========================= */
+
+@media (max-width: 900px) {
+  .hero {
+    min-height: auto;
+
+    padding: 72px 0;
+  }
+
+  .hero-container {
+    grid-template-columns: 1fr;
+
+    gap: 52px;
+  }
+
+  .hero-content {
+    text-align: center;
+  }
+
+  .hero-description {
+    margin-inline: auto;
+  }
+
+  .hero-actions,
+  .hero-socials {
+    justify-content: center;
+  }
+
+  .hero-visual {
+    width: min(100%, 620px);
+
+    margin-inline: auto;
+  }
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 640px) {
+  .hero {
+    padding: 56px 0;
+  }
+
+  .hero-container {
+    width: min(100% - 20px, var(--max-width));
+
+    gap: 40px;
+  }
+
+  .hero-eyebrow {
+    margin-bottom: 14px;
+
+    font-size: 0.8rem;
+  }
+
+  .hero-title {
+    font-size: clamp(2.7rem, 14vw, 4rem);
+
+    line-height: 1.02;
+  }
+
+  .hero-description {
+    margin-top: 22px;
+
+    font-size: 1rem;
+
+    line-height: 1.7;
+  }
+
+  .hero-actions {
+    flex-direction: column;
+
+    margin-top: 30px;
+  }
+
+  .hero-button {
+    width: 100%;
+  }
+
+  .hero-socials {
+    gap: 18px;
+  }
+
+  .terminal-body {
+    padding: 20px;
+
+    font-size: 0.78rem;
+
+    line-height: 1.7;
+  }
+
+  .terminal-output {
+    margin-left: 10px;
+  }
+
+  .terminal-title {
+    font-size: 0.7rem;
+  }
+}
+
+/* =========================
+   SMALL MOBILE
+========================= */
+
+@media (max-width: 380px) {
+  .hero-container {
+    width: min(100% - 16px, var(--max-width));
+  }
+
+  .hero-title {
+    font-size: 2.55rem;
+  }
+
+  .terminal-body {
+    padding: 16px;
+
+    font-size: 0.72rem;
+  }
+
+  .terminal-output {
+    margin-left: 6px;
+  }
+}

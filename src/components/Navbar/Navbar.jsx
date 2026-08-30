@@ -27,7 +27,7 @@ const Navbar = () => {
           className="navbar-logo"
           onClick={() => handleNavClick("home")}
         >
-          Fuzaimi<span>.</span>
+          Fuzaimi Fauzi<span>.</span>
         </a>
 
         <button
