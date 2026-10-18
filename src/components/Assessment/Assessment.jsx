@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { QUESTIONS, TOPICS } from "@/data/assessmentQuestions";
+import { highlightCSharp } from "./highlightCSharp";
 import "./Assessment.css";
 
 const SECONDS_PER_QUESTION = 90;
@@ -243,13 +244,13 @@ function QuestionCard({ q, answer, reveal, onPick }) {
           {reveal && (
             <div className="qz-fixed">
               <p className="qz-label">Fixed version</p>
-              <pre className="qz-code">{q.fixedCode}</pre>
+              <CodeBlock code={q.fixedCode} />
             </div>
           )}
         </>
       ) : (
         <>
-          {q.code && <pre className="qz-code">{q.code}</pre>}
+          {q.code && <CodeBlock code={q.code} />}
           <div className="qz-options">
             {q.options.map((opt, i) => {
               let cls = "qz-option";
@@ -280,8 +281,30 @@ function QuestionCard({ q, answer, reveal, onPick }) {
   );
 }
 
+function Tokens({ tokens }) {
+  if (tokens.length === 0) return " ";
+  return tokens.map((t, i) => (
+    <span key={i} className={`tk-${t.cls}`}>
+      {t.text}
+    </span>
+  ));
+}
+
+function CodeBlock({ code }) {
+  return (
+    <pre className="qz-code">
+      {highlightCSharp(code).map((tokens, i) => (
+        <div key={i}>
+          <Tokens tokens={tokens} />
+        </div>
+      ))}
+    </pre>
+  );
+}
+
 function CodeLines({ code, onLine, picked, bugLine }) {
   const lines = code.split("\n");
+  const highlighted = highlightCSharp(code);
   return (
     <div className="qz-code qz-lines">
       {lines.map((text, i) => {
@@ -292,7 +315,9 @@ function CodeLines({ code, onLine, picked, bugLine }) {
         return (
           <button key={n} className={cls} disabled={!onLine || !text.trim()} onClick={() => onLine?.(n)}>
             <span className="qz-ln">{n}</span>
-            <span className="qz-lt">{text || " "}</span>
+            <span className="qz-lt">
+              <Tokens tokens={highlighted[i]} />
+            </span>
           </button>
         );
       })}
