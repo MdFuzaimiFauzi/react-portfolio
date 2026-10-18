@@ -27,7 +27,7 @@ export const QUESTIONS = [
     id: "oop-1",
     topic: "oop",
     kind: "choice",
-    prompt: "The raw bytes are private and callers only see IsBusy. Which OOP pillar is this?",
+    prompt: "The class below keeps the raw bytes private and only shows IsBusy. Which OOP principle is this?",
     code: `public class StatusFrame
 {
     private readonly byte[] _raw;
@@ -47,7 +47,7 @@ export const QUESTIONS = [
     id: "oop-2",
     topic: "oop",
     kind: "output",
-    prompt: "What does this print?",
+    prompt: "What will this code print?",
     code: `class Robot
 {
     public virtual string Name() => "Robot";
@@ -72,7 +72,7 @@ Console.WriteLine(r.Describe());`,
     id: "oop-3",
     topic: "oop",
     kind: "output",
-    prompt: "Same idea, but with 'new' instead of 'override'. What does this print?",
+    prompt: "Here Oht uses 'new' instead of 'override'. What will this print?",
     code: `class Robot
 {
     public string Name() => "Robot";
@@ -96,7 +96,7 @@ Console.WriteLine(r.Name());`,
     id: "oop-4",
     topic: "oop",
     kind: "bug",
-    prompt: "Any code can wipe the carrier's history. Tap the line that breaks encapsulation.",
+    prompt: "Any other class can clear or replace the carrier's history. Which line causes this?",
     code: `public class Carrier
 {
     public List<string> History = new List<string>();
@@ -132,7 +132,7 @@ Console.WriteLine(r.Name());`,
     id: "design-1",
     topic: "design",
     kind: "choice",
-    prompt: "Which statement about interfaces and abstract classes in C# is true?",
+    prompt: "Which of these is true about interfaces and abstract classes?",
     options: [
       "A class can inherit from many abstract classes",
       "A class can implement many interfaces but inherit only one class",
@@ -149,7 +149,7 @@ Console.WriteLine(r.Name());`,
     id: "design-2",
     topic: "design",
     kind: "choice",
-    prompt: "Which line will NOT compile?",
+    prompt: "Which line will give a compile error?",
     code: `abstract class Controller
 {
     public abstract void Connect();
@@ -176,7 +176,7 @@ class AgvController : Controller
     id: "design-3",
     topic: "design",
     kind: "bug",
-    prompt: "A new ResetCommand was added and the app crashes when sending it. Tap the line that causes it.",
+    prompt: "Someone added a new ResetCommand. When the app sends it, the app crashes. Which line is the problem?",
     code: `public byte[] Encode(object cmd)
 {
     if (cmd is MoveCommand m) return m.ToBytes();
@@ -199,7 +199,7 @@ public byte[] Encode(ICommand cmd) => cmd.ToBytes();`,
     id: "design-4",
     topic: "design",
     kind: "choice",
-    prompt: "Screens call IRobotControllerFactory.Create(robotType) and work with IRobotController. What is the main benefit?",
+    prompt: "The screens get a robot controller from a factory and only use the IRobotController interface. Why is this useful?",
     options: [
       "It makes the code run faster",
       "Screens depend on interfaces, so new robot types are added in one place without touching the screens",
@@ -218,7 +218,7 @@ public byte[] Encode(ICommand cmd) => cmd.ToBytes();`,
     id: "state-1",
     topic: "state",
     kind: "bug",
-    prompt: "A queued transfer was marked Completed without ever moving. Tap the buggy line.",
+    prompt: "A transfer jumped from Queued straight to Completed without ever moving. Which line allows this?",
     code: `public enum TransferState { Queued, Transferring, Completed, Cancelled }
 
 public class TransferCommand
@@ -254,7 +254,7 @@ public class TransferCommand
     id: "state-2",
     topic: "state",
     kind: "output",
-    prompt: "What does this print?",
+    prompt: "What will this code print?",
     code: `enum VehicleState { Idle, Moving, Error }
 
 class Vehicle
@@ -274,7 +274,7 @@ Console.WriteLine(new Vehicle().State);`,
     id: "state-3",
     topic: "state",
     kind: "choice",
-    prompt: "Why model a vehicle with one State enum instead of booleans like isMoving, isError, isCharging?",
+    prompt: "Why use one State enum for a vehicle instead of several true/false flags like isMoving and isError?",
     options: [
       "Booleans use more memory",
       "One enum makes impossible combinations (moving AND charging) unrepresentable and transitions explicit",
@@ -291,7 +291,7 @@ Console.WriteLine(new Vehicle().State);`,
     id: "state-4",
     topic: "state",
     kind: "bug",
-    prompt: "This switch won't compile. Tap the line that causes it.",
+    prompt: "This switch statement does not compile. Which line causes the error?",
     code: `switch (state)
 {
     case VehicleState.Idle:
@@ -321,7 +321,7 @@ Console.WriteLine(new Vehicle().State);`,
     id: "async-1",
     topic: "async",
     kind: "bug",
-    prompt: "Clicking Connect freezes the WinForms app forever. Tap the line that causes the hang.",
+    prompt: "When the user clicks Connect, the app freezes and never recovers. Which line causes this?",
     code: `private void BtnConnect_Click(object sender, EventArgs e)
 {
     var ok = ConnectAsync().Result;
@@ -342,7 +342,7 @@ Console.WriteLine(new Vehicle().State);`,
     id: "async-2",
     topic: "async",
     kind: "output",
-    prompt: "In what order are the letters printed?",
+    prompt: "In what order will the letters be printed?",
     code: `static async Task Main()
 {
     Console.WriteLine("A");
@@ -369,7 +369,7 @@ static async Task WorkAsync()
     id: "async-3",
     topic: "async",
     kind: "bug",
-    prompt: "Database errors are never logged, and sometimes the app crashes. Tap the root cause.",
+    prompt: "Database errors are never logged, and sometimes the app crashes. Which line is the root cause?",
     code: `public async void SaveAlarmAsync(Alarm alarm)
 {
     _db.Alarms.Add(alarm);
@@ -398,7 +398,7 @@ catch (Exception ex) { _log.Error(ex); }`,
     id: "async-4",
     topic: "async",
     kind: "choice",
-    prompt: "You need the status of 5 machines; each call takes about 1 second. Which version takes about 1 second instead of 5?",
+    prompt: "You need the status of 5 machines, and each call takes about 1 second. Which code gets all 5 in about 1 second instead of 5?",
     options: [
       "foreach (var id in ids) results.Add(await GetStatusAsync(id));",
       "var results = await Task.WhenAll(ids.Select(GetStatusAsync));",
@@ -417,7 +417,7 @@ catch (Exception ex) { _log.Error(ex); }`,
     id: "threads-1",
     topic: "threads",
     kind: "bug",
-    prompt: "OnTransferDone is called from many threads. After 10,000 transfers the counter shows 9,962. Tap the bug.",
+    prompt: "Many threads call OnTransferDone at the same time. After 10,000 transfers the counter only shows 9,962. Which line is the bug?",
     code: `public class Stats
 {
     private int _completed;
@@ -450,7 +450,7 @@ catch (Exception ex) { _log.Error(ex); }`,
     id: "threads-2",
     topic: "threads",
     kind: "choice",
-    prompt: "Several socket threads update a shared vehicleId to position map. What is the simplest safe choice?",
+    prompt: "Several threads read and update the same dictionary of vehicle positions. What is the simplest safe choice?",
     options: [
       "Dictionary<string, int> with no lock",
       "ConcurrentDictionary<string, int>",
@@ -467,7 +467,7 @@ catch (Exception ex) { _log.Error(ex); }`,
     id: "threads-3",
     topic: "threads",
     kind: "bug",
-    prompt: "Only one frame should be written to the port at a time, but this won't compile. Tap the line that breaks it.",
+    prompt: "This method should send only one frame at a time, but it does not compile. Which line is the problem?",
     code: `private readonly object _sync = new();
 
 public async Task SendAsync(byte[] frame)
@@ -501,7 +501,7 @@ public async Task SendAsync(byte[] frame)
     id: "threads-4",
     topic: "threads",
     kind: "choice",
-    prompt: "Thread 1 runs MoveJob and thread 2 runs CancelJob at the same time. Sometimes the app hangs. Why?",
+    prompt: "Thread 1 calls MoveJob while thread 2 calls CancelJob. Sometimes the app hangs forever. Why?",
     code: `void MoveJob()
 {
     lock (_vehicleLock)
@@ -533,7 +533,7 @@ void CancelJob()
     id: "bytes-1",
     topic: "bytes",
     kind: "output",
-    prompt: "Bit 2 is Busy and bit 1 is Alarm. What does this print?",
+    prompt: "In this status byte, bit 2 means Busy and bit 1 means Alarm. What will this print?",
     code: `byte status = 0b0000_0101;
 
 bool busy  = (status & 0x04) != 0;
@@ -551,7 +551,7 @@ Console.WriteLine($"{busy} {alarm}");`,
     id: "bytes-2",
     topic: "bytes",
     kind: "output",
-    prompt: "On a normal Windows PC (x86/x64), what does this print?",
+    prompt: "On a normal Windows PC, what will this print?",
     code: `byte[] b = BitConverter.GetBytes((ushort)0x1234);
 Console.WriteLine($"{b[0]:X2} {b[1]:X2}");`,
     options: ["12 34", "34 12", "00 12", "Depends on the time of day"],
@@ -565,7 +565,7 @@ Console.WriteLine($"{b[0]:X2} {b[1]:X2}");`,
     id: "bytes-3",
     topic: "bytes",
     kind: "bug",
-    prompt: "Status frames are always 16 bytes, but parsing fails now and then under load. Tap the bug.",
+    prompt: "Every status message is exactly 16 bytes, but under heavy load the parsing sometimes fails. Which line is the bug?",
     code: `var buffer = new byte[16];
 await stream.ReadAsync(buffer, 0, 16);
 var frame = StatusFrame.Parse(buffer);`,
@@ -591,7 +591,7 @@ var frame = StatusFrame.Parse(buffer);`,
     id: "bytes-4",
     topic: "bytes",
     kind: "choice",
-    prompt: "The equipment sends variable-length messages over TCP. How does the receiver know where each message ends?",
+    prompt: "The machine sends messages of different lengths over TCP. How does the receiver know where one message ends?",
     options: [
       "Each ReadAsync call returns exactly one message",
       "Use framing: a length prefix in the header, or start/end delimiter bytes",
@@ -610,7 +610,7 @@ var frame = StatusFrame.Parse(buffer);`,
     id: "dispose-1",
     topic: "dispose",
     kind: "bug",
-    prompt: "After a few hours: 'Timeout expired. The max pool size was reached.' Tap the root cause.",
+    prompt: "After a few hours, database calls start timing out with \"max pool size was reached\". Which line is the root cause?",
     code: `public int CountAlarms()
 {
     var conn = new SqlConnection(_connectionString);
@@ -635,7 +635,7 @@ var frame = StatusFrame.Parse(buffer);`,
     id: "dispose-2",
     topic: "dispose",
     kind: "output",
-    prompt: "What does this print, line by line?",
+    prompt: "What will this print, in order?",
     code: `class Res : IDisposable
 {
     private readonly string _n;
@@ -664,7 +664,7 @@ using (var b = new Res("B"))
     id: "dispose-3",
     topic: "dispose",
     kind: "choice",
-    prompt: "What does a using statement compile into?",
+    prompt: "What does a using statement turn into when the code is compiled?",
     options: [
       "A call to GC.Collect()",
       "A try/finally that calls Dispose() in the finally block",
@@ -681,7 +681,7 @@ using (var b = new Res("B"))
     id: "dispose-4",
     topic: "dispose",
     kind: "bug",
-    prompt: "Under heavy polling the server runs out of sockets. Tap the line that causes it.",
+    prompt: "When the server checks machine status very often, it runs out of network sockets. Which line causes this?",
     code: `public async Task<string> GetStatusAsync(string url)
 {
     using var client = new HttpClient();
@@ -709,7 +709,7 @@ using (var b = new Res("B"))
     id: "events-1",
     topic: "events",
     kind: "bug",
-    prompt: "Every time an alarm panel is closed and reopened, memory grows and alarms show twice. Tap the bug.",
+    prompt: "Every time the alarm panel is closed and opened again, memory grows and alarms show up twice. Which line is the bug?",
     code: `public class AlarmPanel : IDisposable
 {
     private readonly AlarmService _svc;
@@ -748,7 +748,7 @@ using (var b = new Res("B"))
     id: "events-2",
     topic: "events",
     kind: "bug",
-    prompt: "The app crashes with NullReferenceException when nothing is listening. Tap the bug.",
+    prompt: "The app crashes with a NullReferenceException when nothing is listening to the event. Which line is the bug?",
     code: `public class Vehicle
 {
     public event EventHandler<int>? PositionChanged;
@@ -777,7 +777,7 @@ using (var b = new Res("B"))
     id: "events-3",
     topic: "events",
     kind: "output",
-    prompt: "What does this print?",
+    prompt: "What will this print?",
     code: `Func<int> f = () => 1;
 f += () => 2;
 f += () => 3;
@@ -794,7 +794,7 @@ Console.WriteLine(f());`,
     id: "events-4",
     topic: "events",
     kind: "choice",
-    prompt: "What does the 'event' keyword add compared with a public delegate field?",
+    prompt: "What is the difference between these two lines?",
     code: `public Action<string>? OnAlarmField;      // A
 public event Action<string>? OnAlarmEvent; // B`,
     options: [
@@ -815,7 +815,7 @@ public event Action<string>? OnAlarmEvent; // B`,
     id: "linq-1",
     topic: "linq",
     kind: "output",
-    prompt: "What does this print?",
+    prompt: "What will this print?",
     code: `var list = new List<int> { 1, 2, 3 };
 var big = list.Where(x => x > 1);
 
@@ -833,7 +833,7 @@ Console.WriteLine(big.Count());`,
     id: "linq-2",
     topic: "linq",
     kind: "bug",
-    prompt: "The alarm history page gets slower every week. Tap the line that loads too much.",
+    prompt: "The alarm history page gets slower every week as more alarms are saved. Which line loads too much data?",
     code: `public List<Alarm> GetPage(int pageIndex, int pageSize)
 {
     return _db.Alarms.ToList()
@@ -861,7 +861,7 @@ Console.WriteLine(big.Count());`,
     id: "linq-3",
     topic: "linq",
     kind: "choice",
-    prompt: "There are 100 vehicles. How many database queries does this send?",
+    prompt: "There are 100 vehicles. How many database queries does this code run?",
     code: `var vehicles = await _db.Vehicles.ToListAsync();
 
 foreach (var v in vehicles)
@@ -880,7 +880,7 @@ foreach (var v in vehicles)
     id: "linq-4",
     topic: "linq",
     kind: "output",
-    prompt: "What does this print?",
+    prompt: "What will this print?",
     code: `var ids = new List<int> { 5, 7 };
 var x = ids.FirstOrDefault(i => i > 10);
 
@@ -898,7 +898,7 @@ Console.WriteLine(x);`,
     id: "errors-1",
     topic: "errors",
     kind: "bug",
-    prompt: "The port sometimes fails to open, but nobody ever knows why. Tap the bug.",
+    prompt: "Sometimes the port fails to open, but nobody ever finds out why. Which line is the problem?",
     code: `public void Start()
 {
     try
@@ -933,7 +933,7 @@ Console.WriteLine(x);`,
     id: "errors-2",
     topic: "errors",
     kind: "bug",
-    prompt: "The logged stack trace always points at this method, never where the error really happened. Tap the bug.",
+    prompt: "The error log always points to this method, never to where the error really happened. Which line causes this?",
     code: `try
 {
     _robot.Move(target);
@@ -962,7 +962,7 @@ catch (Exception ex)
     id: "errors-3",
     topic: "errors",
     kind: "output",
-    prompt: "What does this print?",
+    prompt: "What will this print?",
     code: `string? name = null;
 
 Console.WriteLine(name?.Length ?? -1);`,
@@ -977,7 +977,7 @@ Console.WriteLine(name?.Length ?? -1);`,
     id: "errors-4",
     topic: "errors",
     kind: "output",
-    prompt: "What does this print?",
+    prompt: "What will this print?",
     code: `static int Test()
 {
     try
