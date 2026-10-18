@@ -9,8 +9,8 @@ const SECONDS_PER_QUESTION = 90;
 
 const KIND_LABEL = {
   choice: "Multiple choice",
-  output: "Read the code",
-  bug: "Spot the bug",
+  output: "What's the output?",
+  bug: "Find the bug",
 };
 
 function shuffle(items) {
@@ -234,7 +234,7 @@ function QuestionCard({ q, answer, reveal, onPick }) {
 
       {q.kind === "bug" ? (
         <>
-          {!reveal && <p className="qz-muted">Tap the line with the bug.</p>}
+          {!reveal && <p className="qz-muted">Click the line that has the bug.</p>}
           <CodeLines
             code={q.code}
             onLine={locked ? undefined : onPick}

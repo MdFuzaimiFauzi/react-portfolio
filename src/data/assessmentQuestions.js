@@ -27,7 +27,7 @@ export const QUESTIONS = [
     id: "oop-1",
     topic: "oop",
     kind: "choice",
-    prompt: "The class below keeps the raw bytes private and only shows IsBusy. Which OOP principle is this?",
+    prompt: "The StatusFrame class keeps its byte array private. Other code can only read IsBusy. Which OOP principle is this?",
     code: `public class StatusFrame
 {
     private readonly byte[] _raw;
@@ -39,7 +39,7 @@ export const QUESTIONS = [
     options: ["Inheritance", "Encapsulation", "Polymorphism", "Abstraction"],
     answer: 1,
     explanation:
-      "Encapsulation hides internal data (the byte array and bit positions) and exposes a safe, named property. If the protocol changes the bit position, only this class changes.",
+      "This is encapsulation. Encapsulation means hiding data inside a class and only showing what other code needs. Here the raw bytes are private, and the class gives a clear property called IsBusy. Tip: If the bit position ever changes, you only fix this one class.",
     sayIt:
       "I hide raw protocol bytes behind named properties, so the rest of the code never depends on byte or bit positions.",
   },
@@ -47,7 +47,7 @@ export const QUESTIONS = [
     id: "oop-2",
     topic: "oop",
     kind: "output",
-    prompt: "What will this code print?",
+    prompt: "What is the output of the following code?",
     code: `class Robot
 {
     public virtual string Name() => "Robot";
@@ -64,7 +64,7 @@ Console.WriteLine(r.Describe());`,
     options: ["I am Robot", "I am OHT", "Compile error", "I am "],
     answer: 1,
     explanation:
-      "Name() is virtual and overridden, so the call is resolved at runtime by the real object type (Oht). This is runtime polymorphism, even when called from inside the base class.",
+      "The output is \"I am OHT\". Name() is marked virtual in Robot and override in Oht. When a method is virtual, C# checks the real object type when the program runs. The object is an Oht, so Oht's Name() runs, even though the variable type is Robot. This is called polymorphism.",
     sayIt:
       "With virtual and override, the method that runs depends on the object's real type, not the variable's type.",
   },
@@ -72,7 +72,7 @@ Console.WriteLine(r.Describe());`,
     id: "oop-3",
     topic: "oop",
     kind: "output",
-    prompt: "Here Oht uses 'new' instead of 'override'. What will this print?",
+    prompt: "This time Oht uses new instead of override. What is the output?",
     code: `class Robot
 {
     public string Name() => "Robot";
@@ -88,7 +88,7 @@ Console.WriteLine(r.Name());`,
     options: ["OHT", "Robot", "Compile error", "Runtime exception"],
     answer: 1,
     explanation:
-      "'new' hides the base method instead of overriding it. The call is chosen at compile time by the variable type (Robot), so it prints Robot. This is method hiding, and it's usually a sign of a design mistake.",
+      "The output is \"Robot\". The new keyword hides the base method. It does not override it. So C# picks the method from the variable type, which is Robot. Tip: If you want each class to have its own behaviour, use virtual and override, not new.",
     sayIt:
       "'new' only hides a method; it isn't polymorphism, so I use virtual and override when behaviour should change per type.",
   },
@@ -96,7 +96,7 @@ Console.WriteLine(r.Name());`,
     id: "oop-4",
     topic: "oop",
     kind: "bug",
-    prompt: "Any other class can clear or replace the carrier's history. Which line causes this?",
+    prompt: "Any class can clear or replace the carrier's History list. Find the line that causes this.",
     code: `public class Carrier
 {
     public List<string> History = new List<string>();
@@ -122,7 +122,7 @@ Console.WriteLine(r.Name());`,
     }
 }`,
     explanation:
-      "A public field lets callers do carrier.History.Clear() or even replace the list. Keep the list private and expose IReadOnlyList, so the only way to change history is MoveTo().",
+      "Line 3 is the problem. History is a public field, so any code can write carrier.History.Clear() or even set it to a new list. Make the list private and share it as an IReadOnlyList. Then the only way to add history is through MoveTo().",
     sayIt:
       "I keep collections private and expose read-only views, so state only changes through methods that enforce the rules.",
   },
@@ -132,7 +132,7 @@ Console.WriteLine(r.Name());`,
     id: "design-1",
     topic: "design",
     kind: "choice",
-    prompt: "Which of these is true about interfaces and abstract classes?",
+    prompt: "Which statement about interfaces and abstract classes is true?",
     options: [
       "A class can inherit from many abstract classes",
       "A class can implement many interfaces but inherit only one class",
@@ -141,7 +141,7 @@ Console.WriteLine(r.Name());`,
     ],
     answer: 1,
     explanation:
-      "C# has single class inheritance but multiple interface implementation. Use an abstract class to share code and state between closely related types; use an interface to define a contract any type can sign up to.",
+      "A class can implement many interfaces, but it can only inherit from one class. Use an interface when you want a contract that many classes can follow, like ICommand. Use an abstract class when related classes should share real code.",
     sayIt:
       "I use an interface for a contract like ICommand, and an abstract base class when related types share real code.",
   },
@@ -149,7 +149,7 @@ Console.WriteLine(r.Name());`,
     id: "design-2",
     topic: "design",
     kind: "choice",
-    prompt: "Which line will give a compile error?",
+    prompt: "Which line of code will NOT compile?",
     code: `abstract class Controller
 {
     public abstract void Connect();
@@ -168,7 +168,7 @@ class AgvController : Controller
     ],
     answer: 1,
     explanation:
-      "You can't create an instance of an abstract class. You can hold a derived object in a variable of the abstract type, which is exactly how abstraction is used.",
+      "You cannot create an object from an abstract class, so new Controller() gives a compile error. An abstract class is like an unfinished template. You can only create objects from a class that inherits from it, like AgvController.",
     sayIt:
       "An abstract class is a partial template: it can't be created directly, only through a concrete subclass.",
   },
@@ -176,7 +176,7 @@ class AgvController : Controller
     id: "design-3",
     topic: "design",
     kind: "bug",
-    prompt: "Someone added a new ResetCommand. When the app sends it, the app crashes. Which line is the problem?",
+    prompt: "A developer added a new ResetCommand. Now the app crashes when it sends this command. Find the line that causes the crash.",
     code: `public byte[] Encode(object cmd)
 {
     if (cmd is MoveCommand m) return m.ToBytes();
@@ -191,7 +191,7 @@ class AgvController : Controller
 
 public byte[] Encode(ICommand cmd) => cmd.ToBytes();`,
     explanation:
-      "Unknown commands silently return null, and the caller crashes later with a NullReferenceException. The deeper problem is the type check chain: every new command means editing this method (Open/Closed violation). An ICommand interface lets each command encode itself.",
+      "Line 5 returns null for any command it does not know, so the caller crashes later with a NullReferenceException. The bigger problem is the list of if statements: every new command means changing this method. Give every command the same ICommand interface, and let each command turn itself into bytes.",
     sayIt:
       "Instead of type-checking with if/else, I give every command the same interface so new commands need no changes to the sender.",
   },
@@ -199,7 +199,7 @@ public byte[] Encode(ICommand cmd) => cmd.ToBytes();`,
     id: "design-4",
     topic: "design",
     kind: "choice",
-    prompt: "The screens get a robot controller from a factory and only use the IRobotController interface. Why is this useful?",
+    prompt: "The screens get their robot controller from a factory and only use the IRobotController interface. What is the main benefit?",
     options: [
       "It makes the code run faster",
       "Screens depend on interfaces, so new robot types are added in one place without touching the screens",
@@ -208,7 +208,7 @@ public byte[] Encode(ICommand cmd) => cmd.ToBytes();`,
     ],
     answer: 1,
     explanation:
-      "This is the Factory pattern plus Dependency Inversion: high-level code depends on abstractions. Adding a new robot means a new class and one line in the factory. It also makes testing easy, since you can pass a fake controller.",
+      "The screens do not need to know which robot class they are using. To add a new robot type, you write one new class and add one line to the factory. The screens do not change. This also makes testing easier, because you can pass in a fake controller.",
     sayIt:
       "The factory hides which concrete controller is created, so adding a robot type doesn't ripple through the UI.",
   },
@@ -218,7 +218,7 @@ public byte[] Encode(ICommand cmd) => cmd.ToBytes();`,
     id: "state-1",
     topic: "state",
     kind: "bug",
-    prompt: "A transfer jumped from Queued straight to Completed without ever moving. Which line allows this?",
+    prompt: "A transfer went from Queued straight to Completed, without ever moving. Find the line that allows this.",
     code: `public enum TransferState { Queued, Transferring, Completed, Cancelled }
 
 public class TransferCommand
@@ -246,7 +246,7 @@ public class TransferCommand
     }
 }`,
     explanation:
-      "A state machine must guard its transitions. Without the check, Queued can jump straight to Completed. Each transition method should verify the current state first.",
+      "Line 9 sets the state to Completed without checking the current state. A state machine should only allow valid moves. Check that the transfer is Transferring first, and throw an error if it is not.",
     sayIt:
       "Every transition checks the current state first, so illegal jumps like Queued to Completed are rejected and logged.",
   },
@@ -254,7 +254,7 @@ public class TransferCommand
     id: "state-2",
     topic: "state",
     kind: "output",
-    prompt: "What will this code print?",
+    prompt: "What is the output of the following code?",
     code: `enum VehicleState { Idle, Moving, Error }
 
 class Vehicle
@@ -266,7 +266,7 @@ Console.WriteLine(new Vehicle().State);`,
     options: ["null", "Idle", "0", "Compile error"],
     answer: 1,
     explanation:
-      "An enum field defaults to the value 0, which is the first member, Idle. Printing an enum prints its name. Tip: many teams put Unknown = 0 first, so an uninitialised state is never mistaken for a real one.",
+      "The output is \"Idle\". A new enum field starts at the value 0, and 0 is the first item in the list, which is Idle. When you print an enum, C# prints its name. Tip: Many teams put Unknown = 0 first, so a state that was never set is easy to spot.",
     sayIt:
       "Enums default to zero, so I make the zero value something safe like Unknown.",
   },
@@ -274,7 +274,7 @@ Console.WriteLine(new Vehicle().State);`,
     id: "state-3",
     topic: "state",
     kind: "choice",
-    prompt: "Why use one State enum for a vehicle instead of several true/false flags like isMoving and isError?",
+    prompt: "Why use one State enum for a vehicle, instead of separate true/false flags like isMoving and isError?",
     options: [
       "Booleans use more memory",
       "One enum makes impossible combinations (moving AND charging) unrepresentable and transitions explicit",
@@ -283,7 +283,7 @@ Console.WriteLine(new Vehicle().State);`,
     ],
     answer: 1,
     explanation:
-      "With n booleans you get 2^n combinations, many of them invalid. A single state value plus defined transitions keeps the object in exactly one valid state and makes the flow easy to draw and test.",
+      "With separate flags, a vehicle could be moving and charging at the same time, which makes no sense. One State value means the vehicle is always in exactly one state. It also makes every allowed change clear and easy to test.",
     sayIt:
       "A state machine keeps the object in exactly one valid state and makes every allowed transition explicit.",
   },
@@ -291,7 +291,7 @@ Console.WriteLine(new Vehicle().State);`,
     id: "state-4",
     topic: "state",
     kind: "bug",
-    prompt: "This switch statement does not compile. Which line causes the error?",
+    prompt: "This switch statement does not compile. Find the line that causes the error.",
     code: `switch (state)
 {
     case VehicleState.Idle:
@@ -311,7 +311,7 @@ Console.WriteLine(new Vehicle().State);`,
         break;
 }`,
     explanation:
-      "C# forbids implicit fall-through between non-empty cases (error CS0163). Each section must end with break, return, throw or goto case. This prevents accidental fall-through bugs common in C and C++.",
+      "In C#, a case cannot fall through into the next case. Every case must end with break, return or throw. Line 4 calls StartMove() and then runs straight into the next case, so the compiler stops with an error. Add break after line 4.",
     sayIt:
       "C# doesn't allow silent fall-through in switch, so every case ends with break, return or throw.",
   },
@@ -321,7 +321,7 @@ Console.WriteLine(new Vehicle().State);`,
     id: "async-1",
     topic: "async",
     kind: "bug",
-    prompt: "When the user clicks Connect, the app freezes and never recovers. Which line causes this?",
+    prompt: "When the user clicks Connect, the app freezes and never recovers. Find the line that causes this.",
     code: `private void BtnConnect_Click(object sender, EventArgs e)
 {
     var ok = ConnectAsync().Result;
@@ -334,7 +334,7 @@ Console.WriteLine(new Vehicle().State);`,
     lblStatus.Text = ok ? "Connected" : "Failed";
 }`,
     explanation:
-      ".Result blocks the UI thread. ConnectAsync tries to resume on the UI thread after its await, but that thread is blocked waiting for it: a deadlock. Use await all the way up. async void is acceptable only for event handlers.",
+      "Line 3 uses .Result, which blocks the UI thread while it waits. But ConnectAsync needs that same UI thread to finish its work. Each one waits for the other forever. This is a deadlock. Use await instead of .Result. Note: async void is fine for event handlers like this button click.",
     sayIt:
       "Blocking on .Result or .Wait() on the UI thread can deadlock, so I use async and await all the way up.",
   },
@@ -342,7 +342,7 @@ Console.WriteLine(new Vehicle().State);`,
     id: "async-2",
     topic: "async",
     kind: "output",
-    prompt: "In what order will the letters be printed?",
+    prompt: "In what order are the letters printed?",
     code: `static async Task Main()
 {
     Console.WriteLine("A");
@@ -361,7 +361,7 @@ static async Task WorkAsync()
     options: ["A B C D E", "A C B D E", "A B D C E", "A C E B D"],
     answer: 0,
     explanation:
-      "An async method runs synchronously until its first await that isn't already complete. So B prints immediately, then WorkAsync returns a Task, Main prints C, then awaits until D is printed, then E.",
+      "The order is A, B, C, D, E. An async method runs normally until it reaches its first await. So WorkAsync prints B right away, then waits for the delay. Main prints C, then waits for the task. When the delay ends, D prints, then E.",
     sayIt:
       "An async method runs synchronously up to the first real await, then returns a Task to the caller.",
   },
@@ -369,7 +369,7 @@ static async Task WorkAsync()
     id: "async-3",
     topic: "async",
     kind: "bug",
-    prompt: "Database errors are never logged, and sometimes the app crashes. Which line is the root cause?",
+    prompt: "Database errors are never logged, and sometimes the app crashes. Find the line that causes this.",
     code: `public async void SaveAlarmAsync(Alarm alarm)
 {
     _db.Alarms.Add(alarm);
@@ -390,7 +390,7 @@ catch (Exception ex) { _log.Error(ex); }`,
 try { await SaveAlarmAsync(alarm); }
 catch (Exception ex) { _log.Error(ex); }`,
     explanation:
-      "async void can't be awaited, so the try/catch finishes before the save does. An exception inside it escapes to the synchronization context and can crash the process. Return Task and await it.",
+      "Line 1 uses async void. The caller cannot await an async void method, so the try/catch finishes before the save is done. If the save fails, the error is not caught and can crash the app. Return a Task instead, and await it.",
     sayIt:
       "I return Task from async methods so callers can await them and catch their exceptions; async void is only for event handlers.",
   },
@@ -398,7 +398,7 @@ catch (Exception ex) { _log.Error(ex); }`,
     id: "async-4",
     topic: "async",
     kind: "choice",
-    prompt: "You need the status of 5 machines, and each call takes about 1 second. Which code gets all 5 in about 1 second instead of 5?",
+    prompt: "You need the status of 5 machines. Each call takes about 1 second. Which code gets all 5 results in about 1 second?",
     options: [
       "foreach (var id in ids) results.Add(await GetStatusAsync(id));",
       "var results = await Task.WhenAll(ids.Select(GetStatusAsync));",
@@ -407,7 +407,7 @@ catch (Exception ex) { _log.Error(ex); }`,
     ],
     answer: 1,
     explanation:
-      "Task.WhenAll starts all calls first and then waits for all of them together. Awaiting inside a loop runs them one after another. The Parallel.ForEach version blocks thread-pool threads and also adds to a List from many threads, which isn't thread-safe.",
+      "Task.WhenAll starts all 5 calls at once, then waits for all of them together. So the total time is about 1 second. Using await inside a loop runs the calls one after another, so it takes about 5 seconds.",
     sayIt:
       "For independent I/O calls I start them all and await Task.WhenAll, so total time is the slowest call, not the sum.",
   },
@@ -417,7 +417,7 @@ catch (Exception ex) { _log.Error(ex); }`,
     id: "threads-1",
     topic: "threads",
     kind: "bug",
-    prompt: "Many threads call OnTransferDone at the same time. After 10,000 transfers the counter only shows 9,962. Which line is the bug?",
+    prompt: "Many threads call OnTransferDone at the same time. After 10,000 transfers, the counter shows only 9,962. Find the bug.",
     code: `public class Stats
 {
     private int _completed;
@@ -442,7 +442,7 @@ catch (Exception ex) { _log.Error(ex); }`,
     public int Completed => Volatile.Read(ref _completed);
 }`,
     explanation:
-      "++ is read, add, write: three steps. Two threads can read the same value and both write the same result, losing an increment (a race condition). Interlocked.Increment does it atomically; a lock also works.",
+      "_completed++ looks like one step, but it is really three: read, add 1, write. Two threads can read the same value at the same time, and one update gets lost. This is called a race condition. Interlocked.Increment does all three steps safely in one go.",
     sayIt:
       "count++ isn't atomic, so with many threads I use Interlocked or a lock to avoid lost updates.",
   },
@@ -459,7 +459,7 @@ catch (Exception ex) { _log.Error(ex); }`,
     ],
     answer: 1,
     explanation:
-      "Dictionary isn't thread-safe; concurrent writes can corrupt it or throw. ConcurrentDictionary handles locking internally and offers atomic helpers like AddOrUpdate and GetOrAdd.",
+      "A normal Dictionary is not safe when many threads change it at the same time. It can break or throw errors. ConcurrentDictionary is built for this, and it has safe helpers like AddOrUpdate.",
     sayIt:
       "For shared maps across threads I use ConcurrentDictionary with AddOrUpdate instead of a plain Dictionary.",
   },
@@ -467,7 +467,7 @@ catch (Exception ex) { _log.Error(ex); }`,
     id: "threads-3",
     topic: "threads",
     kind: "bug",
-    prompt: "This method should send only one frame at a time, but it does not compile. Which line is the problem?",
+    prompt: "This method should send only one frame at a time, but it does not compile. Find the line that causes the error.",
     code: `private readonly object _sync = new();
 
 public async Task SendAsync(byte[] frame)
@@ -493,7 +493,7 @@ public async Task SendAsync(byte[] frame)
     }
 }`,
     explanation:
-      "You can't await inside a lock (error CS1996), because the code after await may resume on a different thread, and a Monitor lock must be released by the same thread. SemaphoreSlim(1, 1) is the async-friendly mutex.",
+      "You cannot use await inside a lock block. After an await, the code may continue on a different thread, but a lock must be released by the same thread that took it. Use SemaphoreSlim(1, 1) instead, which works with await.",
     sayIt:
       "For mutual exclusion around async code I use SemaphoreSlim with WaitAsync and release it in finally.",
   },
@@ -501,7 +501,7 @@ public async Task SendAsync(byte[] frame)
     id: "threads-4",
     topic: "threads",
     kind: "choice",
-    prompt: "Thread 1 calls MoveJob while thread 2 calls CancelJob. Sometimes the app hangs forever. Why?",
+    prompt: "Thread 1 runs MoveJob while thread 2 runs CancelJob. Sometimes the app hangs forever. Why?",
     code: `void MoveJob()
 {
     lock (_vehicleLock)
@@ -523,7 +523,7 @@ void CancelJob()
     ],
     answer: 1,
     explanation:
-      "Classic deadlock. Thread 1 holds vehicleLock and waits for jobLock; thread 2 holds jobLock and waits for vehicleLock. Fix it with a consistent lock order everywhere, or a single lock, or Monitor.TryEnter with a timeout.",
+      "This is a deadlock. Thread 1 locks the vehicle, then waits for the job. Thread 2 locks the job, then waits for the vehicle. Neither can continue. Tip: Always take locks in the same order everywhere, and the deadlock cannot happen.",
     sayIt:
       "To avoid deadlocks I always acquire locks in the same order and keep locked sections small.",
   },
@@ -533,7 +533,7 @@ void CancelJob()
     id: "bytes-1",
     topic: "bytes",
     kind: "output",
-    prompt: "In this status byte, bit 2 means Busy and bit 1 means Alarm. What will this print?",
+    prompt: "In this status byte, bit 2 means Busy and bit 1 means Alarm. What is the output?",
     code: `byte status = 0b0000_0101;
 
 bool busy  = (status & 0x04) != 0;
@@ -543,7 +543,7 @@ Console.WriteLine($"{busy} {alarm}");`,
     options: ["True True", "True False", "False True", "False False"],
     answer: 1,
     explanation:
-      "0b0101 has bits 0 and 2 set. 0x04 is bit 2, so Busy is True. 0x02 is bit 1, which is 0, so Alarm is False.",
+      "The output is \"True False\". The byte 0b0000_0101 has bit 0 and bit 2 turned on. 0x04 checks bit 2, which is on, so busy is True. 0x02 checks bit 1, which is off, so alarm is False.",
     sayIt:
       "I read status flags with a bitmask: AND with the bit's mask and check it's not zero.",
   },
@@ -551,13 +551,13 @@ Console.WriteLine($"{busy} {alarm}");`,
     id: "bytes-2",
     topic: "bytes",
     kind: "output",
-    prompt: "On a normal Windows PC, what will this print?",
+    prompt: "On a normal Windows PC, what is the output of this code?",
     code: `byte[] b = BitConverter.GetBytes((ushort)0x1234);
 Console.WriteLine($"{b[0]:X2} {b[1]:X2}");`,
     options: ["12 34", "34 12", "00 12", "Depends on the time of day"],
     answer: 1,
     explanation:
-      "x86/x64 is little-endian: the low byte comes first. Many network and equipment protocols use big-endian (network byte order), so sending these bytes directly gives the wrong number. Use BinaryPrimitives.WriteUInt16BigEndian for an explicit order.",
+      "The output is \"34 12\". Windows PCs store numbers little-endian, which means the smallest byte comes first. Many machines and network protocols expect big-endian, where the biggest byte comes first. Tip: Use BinaryPrimitives.WriteUInt16BigEndian to choose the byte order yourself.",
     sayIt:
       "BitConverter uses the machine's endianness, so for protocols I use BinaryPrimitives to set big- or little-endian explicitly.",
   },
@@ -565,7 +565,7 @@ Console.WriteLine($"{b[0]:X2} {b[1]:X2}");`,
     id: "bytes-3",
     topic: "bytes",
     kind: "bug",
-    prompt: "Every status message is exactly 16 bytes, but under heavy load the parsing sometimes fails. Which line is the bug?",
+    prompt: "Every status message is exactly 16 bytes long, but sometimes parsing fails when the network is busy. Find the bug.",
     code: `var buffer = new byte[16];
 await stream.ReadAsync(buffer, 0, 16);
 var frame = StatusFrame.Parse(buffer);`,
@@ -583,7 +583,7 @@ await stream.ReadExactlyAsync(buffer, 0, 16); // .NET 7+
 // }
 var frame = StatusFrame.Parse(buffer);`,
     explanation:
-      "ReadAsync returns how many bytes it actually read, which can be fewer than requested. TCP is a stream, so a 16-byte frame can arrive in pieces. Ignoring the return value parses a half-filled buffer. A return of 0 means the peer closed the connection.",
+      "ReadAsync does not always fill the whole buffer. It returns how many bytes it actually read, and that can be less than 16. TCP is a stream, so one message can arrive in pieces. Keep reading until you have all 16 bytes, or use ReadExactlyAsync in .NET 7 and later.",
     sayIt:
       "TCP is a byte stream, so I always check how many bytes ReadAsync returned and loop until the full frame arrives.",
   },
@@ -591,7 +591,7 @@ var frame = StatusFrame.Parse(buffer);`,
     id: "bytes-4",
     topic: "bytes",
     kind: "choice",
-    prompt: "The machine sends messages of different lengths over TCP. How does the receiver know where one message ends?",
+    prompt: "A machine sends messages of different lengths over TCP. How does the receiver know where each message ends?",
     options: [
       "Each ReadAsync call returns exactly one message",
       "Use framing: a length prefix in the header, or start/end delimiter bytes",
@@ -600,7 +600,7 @@ var frame = StatusFrame.Parse(buffer);`,
     ],
     answer: 1,
     explanation:
-      "TCP has no message boundaries; it can merge or split sends. Protocols add framing, for example HSMS (SECS/GEM over TCP) starts every message with a 4-byte length. Read the header, then read exactly that many bytes.",
+      "TCP does not keep message boundaries. It can join two messages together or split one into parts. So the protocol adds framing, usually a length at the start of each message. For example, HSMS (SECS/GEM over TCP) starts every message with a 4-byte length. Read the length first, then read exactly that many bytes.",
     sayIt:
       "Since TCP has no message boundaries, the protocol uses a length header; I read the length first, then exactly that many bytes.",
   },
@@ -610,7 +610,7 @@ var frame = StatusFrame.Parse(buffer);`,
     id: "dispose-1",
     topic: "dispose",
     kind: "bug",
-    prompt: "After a few hours, database calls start timing out with \"max pool size was reached\". Which line is the root cause?",
+    prompt: "After a few hours, database calls start to fail with \"max pool size was reached\". Find the line that causes this.",
     code: `public int CountAlarms()
 {
     var conn = new SqlConnection(_connectionString);
@@ -627,7 +627,7 @@ var frame = StatusFrame.Parse(buffer);`,
     return (int)cmd.ExecuteScalar();
 }`,
     explanation:
-      "The connection is never closed, so it's never returned to the pool. Each call leaks one until the pool (default 100) is empty and new requests time out. 'using' guarantees Dispose, even if an exception is thrown.",
+      "The connection on line 3 is never closed, so it never goes back to the connection pool. Each call uses up one more connection until none are left. Put using in front of it. Then the connection always closes, even if an error happens.",
     sayIt:
       "I wrap connections in using, so they always go back to the pool, even when an exception happens.",
   },
@@ -635,7 +635,7 @@ var frame = StatusFrame.Parse(buffer);`,
     id: "dispose-2",
     topic: "dispose",
     kind: "output",
-    prompt: "What will this print, in order?",
+    prompt: "What is the output of the following code, in order?",
     code: `class Res : IDisposable
 {
     private readonly string _n;
@@ -656,7 +656,7 @@ using (var b = new Res("B"))
     ],
     answer: 1,
     explanation:
-      "Nested usings dispose in reverse order (last opened, first closed), like a stack. That matters when B depends on A, for example a command that uses a connection.",
+      "The objects close in the reverse order they were opened, like a stack of plates. A opens first and B opens second, so B closes first. This matters when one object depends on another, like a command that uses a connection.",
     sayIt:
       "Resources are disposed in reverse order of creation, so dependents close before what they depend on.",
   },
@@ -664,7 +664,7 @@ using (var b = new Res("B"))
     id: "dispose-3",
     topic: "dispose",
     kind: "choice",
-    prompt: "What does a using statement turn into when the code is compiled?",
+    prompt: "What does a using statement become when your code is compiled?",
     options: [
       "A call to GC.Collect()",
       "A try/finally that calls Dispose() in the finally block",
@@ -673,7 +673,7 @@ using (var b = new Res("B"))
     ],
     answer: 1,
     explanation:
-      "using is syntax sugar for try { ... } finally { obj?.Dispose(); }. It doesn't free managed memory (that's the GC's job); it releases unmanaged resources like sockets, file handles and DB connections deterministically.",
+      "A using statement becomes a try/finally block that calls Dispose() in the finally part. So Dispose() always runs, even if an error happens. Note: using does not free memory. It releases things like sockets, files and database connections.",
     sayIt:
       "using becomes a try/finally that calls Dispose, so unmanaged resources are released at a known point.",
   },
@@ -681,7 +681,7 @@ using (var b = new Res("B"))
     id: "dispose-4",
     topic: "dispose",
     kind: "bug",
-    prompt: "When the server checks machine status very often, it runs out of network sockets. Which line causes this?",
+    prompt: "When the server checks machine status very often, it runs out of network sockets. Find the line that causes this.",
     code: `public async Task<string> GetStatusAsync(string url)
 {
     using var client = new HttpClient();
@@ -699,7 +699,7 @@ using (var b = new Res("B"))
         _client.GetStringAsync(url);
 }`,
     explanation:
-      "HttpClient is meant to be reused. Creating and disposing one per call leaves sockets in TIME_WAIT, and under load you run out. Reuse one instance, or use IHttpClientFactory, which also handles DNS changes. Dispose isn't always the right answer.",
+      "Line 3 creates a new HttpClient for every call. Even after it is disposed, its socket stays open for a short time. When you make many calls, the sockets run out. Create one HttpClient and reuse it, or use IHttpClientFactory. So Dispose is not always the right answer!",
     sayIt:
       "HttpClient should be reused, so I inject it through IHttpClientFactory instead of creating one per request.",
   },
@@ -709,7 +709,7 @@ using (var b = new Res("B"))
     id: "events-1",
     topic: "events",
     kind: "bug",
-    prompt: "Every time the alarm panel is closed and opened again, memory grows and alarms show up twice. Which line is the bug?",
+    prompt: "Each time the alarm panel is closed and opened again, memory grows and alarms show up twice. Find the bug.",
     code: `public class AlarmPanel : IDisposable
 {
     private readonly AlarmService _svc;
@@ -740,7 +740,7 @@ using (var b = new Res("B"))
     public void Dispose() => _svc.AlarmRaised -= OnAlarm;
 }`,
     explanation:
-      "The long-lived AlarmService keeps a reference to every panel through its event, so closed panels are never garbage collected and still receive alarms. Unsubscribe in Dispose (in Blazor, implement IDisposable on the component).",
+      "The panel subscribes to AlarmRaised but never unsubscribes. The AlarmService keeps a link to every old panel, so they never get cleaned up, and they still receive alarms. Unsubscribe with -= inside Dispose().",
     sayIt:
       "When a short-lived object subscribes to a long-lived event, I unsubscribe in Dispose to avoid memory leaks.",
   },
@@ -748,7 +748,7 @@ using (var b = new Res("B"))
     id: "events-2",
     topic: "events",
     kind: "bug",
-    prompt: "The app crashes with a NullReferenceException when nothing is listening to the event. Which line is the bug?",
+    prompt: "The app crashes with a NullReferenceException when nothing is listening to the event. Find the bug.",
     code: `public class Vehicle
 {
     public event EventHandler<int>? PositionChanged;
@@ -769,7 +769,7 @@ using (var b = new Res("B"))
     }
 }`,
     explanation:
-      "An event with no subscribers is null. ?.Invoke checks and calls in one step, which is also thread-safe against someone unsubscribing between the check and the call.",
+      "When no one has subscribed, the event is null. Calling it directly on line 7 then throws an error. Use PositionChanged?.Invoke(this, position). The ?. only calls the event when it is not null.",
     sayIt:
       "I raise events with ?.Invoke, because an event with no subscribers is null.",
   },
@@ -777,7 +777,7 @@ using (var b = new Res("B"))
     id: "events-3",
     topic: "events",
     kind: "output",
-    prompt: "What will this print?",
+    prompt: "What is the output of the following code?",
     code: `Func<int> f = () => 1;
 f += () => 2;
 f += () => 3;
@@ -786,7 +786,7 @@ Console.WriteLine(f());`,
     options: ["1", "3", "6", "Compile error"],
     answer: 1,
     explanation:
-      "A multicast delegate calls every method in order, but only the last return value is kept. That's why events usually return void, and why you'd use GetInvocationList() if you need every result.",
+      "The output is 2. All the methods in a delegate run in order, but only the last return value is kept. That is why events usually return void.",
     sayIt:
       "A multicast delegate runs every handler but only returns the last result, so events are usually void.",
   },
@@ -794,7 +794,7 @@ Console.WriteLine(f());`,
     id: "events-4",
     topic: "events",
     kind: "choice",
-    prompt: "What is the difference between these two lines?",
+    prompt: "What does the event keyword add, compared with a public delegate field?",
     code: `public Action<string>? OnAlarmField;      // A
 public event Action<string>? OnAlarmEvent; // B`,
     options: [
@@ -805,7 +805,7 @@ public event Action<string>? OnAlarmEvent; // B`,
     ],
     answer: 1,
     explanation:
-      "With a public field, any class can write OnAlarmField = null (wiping every subscriber) or fire it. The event keyword encapsulates the delegate: only the owning class can raise it.",
+      "With a public delegate field, any class can set it to null and remove every subscriber, or call it directly. The event keyword stops that. Other classes can only subscribe with += or unsubscribe with -=. Only the class that owns the event can raise it.",
     sayIt:
       "The event keyword encapsulates a delegate, so only the owner can raise it and others can only subscribe or unsubscribe.",
   },
@@ -815,7 +815,7 @@ public event Action<string>? OnAlarmEvent; // B`,
     id: "linq-1",
     topic: "linq",
     kind: "output",
-    prompt: "What will this print?",
+    prompt: "What is the output of the following code?",
     code: `var list = new List<int> { 1, 2, 3 };
 var big = list.Where(x => x > 1);
 
@@ -825,7 +825,7 @@ Console.WriteLine(big.Count());`,
     options: ["2", "3", "4", "Throws InvalidOperationException"],
     answer: 1,
     explanation:
-      "LINQ queries are deferred: Where doesn't run until you enumerate it. By the time Count() runs, 4 has been added, so the matches are 2, 3 and 4. Call ToList() if you need a snapshot.",
+      "The output is 3. A LINQ query does not run when you write it. It runs when you use the result, here at Count(). By then, 4 has been added to the list, so 2, 3 and 4 all match. Tip: Call ToList() if you want to save the result at a certain moment.",
     sayIt:
       "LINQ is deferred until enumerated, so I call ToList when I need a snapshot at a specific moment.",
   },
@@ -833,7 +833,7 @@ Console.WriteLine(big.Count());`,
     id: "linq-2",
     topic: "linq",
     kind: "bug",
-    prompt: "The alarm history page gets slower every week as more alarms are saved. Which line loads too much data?",
+    prompt: "The alarm history page gets slower every week as more alarms are saved. Find the line that loads too much data.",
     code: `public List<Alarm> GetPage(int pageIndex, int pageSize)
 {
     return _db.Alarms.ToList()
@@ -853,7 +853,7 @@ Console.WriteLine(big.Count());`,
         .ToListAsync();
 }`,
     explanation:
-      "The first ToList() pulls the whole table into memory; sorting and paging then happen in C#. Keep the query as IQueryable until the end, so EF Core turns OrderBy/Skip/Take into SQL and the database returns only one page.",
+      "The first ToList() on line 3 loads every alarm from the database into memory. Then the sorting and paging happen in C#. Move ToList() to the end, so the database does the sorting and paging and only sends back one page.",
     sayIt:
       "I keep EF queries as IQueryable until the end so filtering and paging run in SQL, not in memory.",
   },
@@ -872,7 +872,7 @@ foreach (var v in vehicles)
     options: ["1", "2", "101", "200"],
     answer: 2,
     explanation:
-      "One query for vehicles plus one per vehicle: the N+1 problem. It's invisible with 3 rows in testing and slow in production. Use one grouped query instead, for example _db.Jobs.GroupBy(j => j.VehicleId).Select(g => new { g.Key, Count = g.Count() }), or a projection with Include.",
+      "It runs 101 queries: 1 query to get the vehicles, plus 1 query for each of the 100 vehicles. This is called the N+1 problem. It looks fine with 3 test vehicles but gets slow in real use. Get all the counts in one query instead, for example with GroupBy.",
     sayIt:
       "I watch for N+1 queries in loops and replace them with one grouped or joined query.",
   },
@@ -880,7 +880,7 @@ foreach (var v in vehicles)
     id: "linq-4",
     topic: "linq",
     kind: "output",
-    prompt: "What will this print?",
+    prompt: "What is the output of the following code?",
     code: `var ids = new List<int> { 5, 7 };
 var x = ids.FirstOrDefault(i => i > 10);
 
@@ -888,7 +888,7 @@ Console.WriteLine(x);`,
     options: ["null", "0", "Throws InvalidOperationException", "5"],
     answer: 1,
     explanation:
-      "FirstOrDefault returns default(T) when nothing matches. For int that's 0, not null, which is dangerous if 0 could be a real id. First() would throw instead. Use int? or check Any() when 0 is meaningful.",
+      "The output is 0. FirstOrDefault returns the default value when nothing matches. For int, the default is 0, not null. Be careful if 0 can also be a real ID. Note: First() would throw an error instead.",
     sayIt:
       "FirstOrDefault returns default(T), which is 0 for int, so I'm careful when 0 is a valid value.",
   },
@@ -898,7 +898,7 @@ Console.WriteLine(x);`,
     id: "errors-1",
     topic: "errors",
     kind: "bug",
-    prompt: "Sometimes the port fails to open, but nobody ever finds out why. Which line is the problem?",
+    prompt: "Sometimes the port fails to open, but nobody ever finds out why. Find the line that causes this.",
     code: `public void Start()
 {
     try
@@ -925,7 +925,7 @@ Console.WriteLine(x);`,
     _poller.Start();
 }`,
     explanation:
-      "An empty catch swallows the error: there's no log, and the poller starts on a closed port, causing confusing failures later. Catch the specific exception you expect, log it with context, and either recover properly or rethrow.",
+      "The empty catch block on line 7 hides the error. Nothing is logged, and the code keeps going as if the port were open. Catch the specific error you expect, log it, and then throw it again if you cannot fix it.",
     sayIt:
       "I never swallow exceptions silently; I catch specific types, log with context, and rethrow if I can't recover.",
   },
@@ -933,7 +933,7 @@ Console.WriteLine(x);`,
     id: "errors-2",
     topic: "errors",
     kind: "bug",
-    prompt: "The error log always points to this method, never to where the error really happened. Which line causes this?",
+    prompt: "The error log always points to this method, never to where the error really happened. Find the line that causes this.",
     code: `try
 {
     _robot.Move(target);
@@ -954,7 +954,7 @@ catch (Exception ex)
     throw;
 }`,
     explanation:
-      "'throw ex;' rethrows as if the exception started here, resetting the stack trace. 'throw;' keeps the original trace. Also log the whole exception, not just the message, so the trace and inner exceptions are kept.",
+      "throw ex; restarts the stack trace from this line, so you lose where the error really started. Use throw; on its own instead. It keeps the original stack trace. Also log the whole exception, not just ex.Message.",
     sayIt:
       "I use 'throw;' rather than 'throw ex;' so the original stack trace is kept for debugging.",
   },
@@ -962,14 +962,14 @@ catch (Exception ex)
     id: "errors-3",
     topic: "errors",
     kind: "output",
-    prompt: "What will this print?",
+    prompt: "What is the output of the following code?",
     code: `string? name = null;
 
 Console.WriteLine(name?.Length ?? -1);`,
     options: ["0", "-1", "null", "Throws NullReferenceException"],
     answer: 1,
     explanation:
-      "?. returns null instead of throwing when name is null, so name?.Length is an int? equal to null. ?? then supplies the fallback -1.",
+      "The output is -1. name is null, so name?.Length gives null instead of throwing an error. Then ?? gives the backup value, -1.",
     sayIt:
       "I use ?. to avoid NullReferenceException and ?? to give a sensible default.",
   },
@@ -977,7 +977,7 @@ Console.WriteLine(name?.Length ?? -1);`,
     id: "errors-4",
     topic: "errors",
     kind: "output",
-    prompt: "What will this print?",
+    prompt: "What is the output of the following code?",
     code: `static int Test()
 {
     try
@@ -994,7 +994,7 @@ Console.WriteLine(Test());`,
     options: ["1", "F 1", "1 F", "Compile error"],
     answer: 1,
     explanation:
-      "finally always runs before the method actually returns, even after a return statement. That's why cleanup like closing a connection belongs in finally (or in using).",
+      "The output is \"F 1\". The finally block always runs before the method really returns, even after a return statement. That is why clean-up code goes in finally.",
     sayIt:
       "finally always runs, even after return or an exception, which is why cleanup goes there.",
   },
