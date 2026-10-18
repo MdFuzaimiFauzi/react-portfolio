@@ -1,3 +1,4 @@
+import Navbar from "@/components/Navbar/Navbar";
 import Assessment from "@/components/Assessment/Assessment";
 
 export const metadata = {
@@ -7,5 +8,10 @@ export const metadata = {
 };
 
 export default function AssessmentPage() {
-  return <Assessment />;
+  return (
+    <>
+      <Navbar />
+      <Assessment />
+    </>
+  );
 }
