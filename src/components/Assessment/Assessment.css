@@ -1,18 +1,18 @@
 /* Scoped styles for the /assessment pop quiz. All classes are prefixed qz-. */
 .qz {
-  --qz-bg: #f7f8fa;
-  --qz-card: #ffffff;
-  --qz-text: #1a1d23;
-  --qz-muted: #5f6673;
-  --qz-border: #e3e6eb;
-  --qz-accent: #2563eb;
-  --qz-accent-soft: #e8efff;
-  --qz-ok: #15803d;
-  --qz-ok-soft: #e7f6ec;
-  --qz-no: #b91c1c;
-  --qz-no-soft: #fdecec;
-  --qz-code-bg: #0f172a;
-  --qz-code-text: #e2e8f0;
+  /* Follows the site's theme tokens from globals.css (dark default, [data-theme="light"]). */
+  --qz-card: var(--surface);
+  --qz-text: var(--text-primary);
+  --qz-muted: var(--text-secondary);
+  --qz-border: var(--border);
+  --qz-accent: var(--accent);
+  --qz-accent-soft: color-mix(in srgb, var(--accent) 15%, transparent);
+  --qz-ok: #4ade80;
+  --qz-ok-soft: color-mix(in srgb, #4ade80 12%, transparent);
+  --qz-no: #f87171;
+  --qz-no-soft: color-mix(in srgb, #f87171 12%, transparent);
+  --qz-code-bg: #1e1e1e;
+  --qz-code-text: #d4d4d4;
 
   width: 100%;
   max-width: 760px;
@@ -23,21 +23,9 @@
   line-height: 1.55;
 }
 
-@media (prefers-color-scheme: dark) {
-  .qz {
-    --qz-bg: #0d1117;
-    --qz-card: #161b22;
-    --qz-text: #e6edf3;
-    --qz-muted: #9aa4b2;
-    --qz-border: #30363d;
-    --qz-accent: #6ea8fe;
-    --qz-accent-soft: #1c2a44;
-    --qz-ok: #4ade80;
-    --qz-ok-soft: #12261a;
-    --qz-no: #f87171;
-    --qz-no-soft: #2c1517;
-    --qz-code-bg: #010409;
-  }
+[data-theme="light"] .qz {
+  --qz-ok: #15803d;
+  --qz-no: #b91c1c;
 }
 
 .qz button {
@@ -145,7 +133,7 @@
 }
 .qz-primary {
   background: var(--qz-accent);
-  color: #fff !important;
+  color: var(--background) !important;
   width: 100%;
 }
 .qz-secondary {
@@ -228,7 +216,7 @@
   color: var(--qz-code-text);
   border-radius: 10px;
   padding: 14px;
-  font-family: ui-monospace, "Cascadia Code", Consolas, Menlo, monospace;
+  font-family: Consolas, "Cascadia Code", "Courier New", ui-monospace, monospace;
   font-size: 0.85rem;
   line-height: 1.5;
   overflow-x: auto;
@@ -372,4 +360,43 @@
 .qz-section-title {
   font-size: 1.2rem;
   margin: 24px 0 12px;
+}
+
+/* C# syntax colours, matching VS Code Dark+ */
+.qz-code .tk-kw {
+  color: #569cd6;
+}
+.qz-code .tk-ctl {
+  color: #c586c0;
+}
+.qz-code .tk-type {
+  color: #4ec9b0;
+}
+.qz-code .tk-fn {
+  color: #dcdcaa;
+}
+.qz-code .tk-var {
+  color: #9cdcfe;
+}
+.qz-code .tk-str {
+  color: #ce9178;
+}
+.qz-code .tk-num {
+  color: #b5cea8;
+}
+.qz-code .tk-com {
+  color: #6a9955;
+}
+.qz-code .tk-br0 {
+  color: #ffd700;
+}
+.qz-code .tk-br1 {
+  color: #da70d6;
+}
+.qz-code .tk-br2 {
+  color: #179fff;
+}
+.qz-code .qz-ln {
+  color: #6e7681;
+  opacity: 1;
 }

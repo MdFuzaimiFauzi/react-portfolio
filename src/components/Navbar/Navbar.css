@@ -1,0 +1,439 @@
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+
+  width: 100%;
+
+  border-bottom: 1px solid var(--border);
+
+  background-color: var(--navbar-background, rgba(10, 13, 18, 0.88));
+
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+
+  transition:
+    background-color 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.navbar-container {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  width: min(100% - 32px, var(--max-width));
+  min-height: 55px;
+
+  margin-inline: auto;
+}
+
+.navbar-logo {
+  flex-shrink: 0;
+
+  color: var(--text-primary);
+
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+
+  transition:
+    opacity 0.2s ease,
+    color 0.2s ease;
+}
+
+.navbar-logo:hover {
+  opacity: 0.8;
+}
+
+.navbar-logo span {
+  color: var(--accent);
+}
+
+/* =========================
+   RIGHT SIDE
+========================= */
+
+.navbar-right {
+  display: flex;
+  align-items: center;
+
+  gap: 18px;
+}
+
+/* =========================
+   DESKTOP NAVIGATION
+========================= */
+
+.navbar-links {
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
+}
+
+.navbar-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 42px;
+
+  padding: 10px 16px;
+
+  color: var(--text-secondary);
+
+  border: 1px solid transparent;
+  border-radius: 8px;
+
+  font-size: 0.95rem;
+  font-weight: 500;
+
+  transition:
+    color 0.2s ease,
+    background-color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.navbar-link:hover {
+  color: var(--text-primary);
+
+  background-color: var(--surface-light);
+}
+
+.navbar-link.active {
+  color: var(--text-primary);
+
+  border-color: var(--border);
+
+  background-color: var(--surface-light);
+}
+
+.navbar-link:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+/* =========================
+   SETTINGS
+========================= */
+
+.navbar-settings {
+  display: flex;
+  align-items: center;
+
+  gap: 14px;
+
+  padding-left: 18px;
+
+  border-left: 1px solid var(--border);
+}
+
+.navbar-setting {
+  display: flex;
+  align-items: center;
+
+  gap: 7px;
+}
+
+.navbar-setting-icon {
+  color: var(--text-secondary);
+
+  font-size: 0.8rem;
+}
+
+.navbar-language-label {
+  color: var(--text-secondary);
+
+  font-size: 0.72rem;
+  font-weight: 600;
+
+  letter-spacing: 0.04em;
+}
+
+/* =========================
+   TOGGLE SWITCH
+========================= */
+
+.navbar-switch {
+  position: relative;
+
+  width: 38px;
+  height: 22px;
+
+  padding: 0;
+
+  border: 1px solid var(--accent);
+  border-radius: 999px;
+
+  background-color: var(--accent);
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.navbar-switch:hover {
+  border-color: var(--accent-hover);
+  background-color: var(--accent-hover);
+}
+
+.navbar-switch-thumb {
+  position: absolute;
+
+  top: 3px;
+  left: 3px;
+
+  width: 14px;
+  height: 14px;
+
+  border-radius: 50%;
+
+  background-color: var(--background);
+
+  transition:
+    transform 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.navbar-switch-active {
+  border-color: var(--accent);
+  background-color: var(--accent);
+}
+
+.navbar-switch-active .navbar-switch-thumb {
+  transform: translateX(16px);
+}
+
+/* =========================
+   HAMBURGER BUTTON
+========================= */
+
+.navbar-menu-button {
+  display: none;
+
+  width: 44px;
+  height: 44px;
+
+  padding: 10px;
+
+  border: 1px solid var(--border);
+  border-radius: 8px;
+
+  background-color: transparent;
+
+  cursor: pointer;
+}
+
+.navbar-menu-button span {
+  display: block;
+
+  width: 100%;
+  height: 2px;
+
+  margin-block: 4px;
+
+  border-radius: 999px;
+
+  background-color: var(--text-primary);
+
+  transition:
+    transform 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.navbar-menu-button:hover {
+  background-color: var(--surface-light);
+}
+
+.navbar-menu-button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+/* =========================
+   TABLET
+========================= */
+
+@media (max-width: 1000px) {
+  .navbar-container {
+    width: min(100% - 24px, var(--max-width));
+  }
+
+  .navbar-right {
+  display: flex;
+  align-items: center;
+
+  flex: 1;
+
+  margin-left: 40px;
+}
+
+.navbar-links {
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
+}
+
+.navbar-settings {
+  display: flex;
+  align-items: center;
+
+  gap: 14px;
+
+  margin-left: auto;
+  padding-left: 18px;
+
+  border-left: 1px solid var(--border);
+}
+
+ 
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 760px) {
+  .navbar-container {
+    width: min(100% - 20px, var(--max-width));
+    min-height: 64px;
+  }
+
+  .navbar-logo {
+    font-size: 1.2rem;
+  }
+
+  .navbar-right {
+    gap: 10px;
+  }
+
+  .navbar-menu-button {
+    display: block;
+  }
+
+  .navbar-links {
+    position: absolute;
+
+    top: calc(100% + 8px);
+    right: 0;
+    left: 0;
+
+    display: none;
+    flex-direction: column;
+    align-items: stretch;
+
+    gap: 6px;
+
+    padding: 8px;
+
+    border: 1px solid var(--border);
+    border-radius: 12px;
+
+    background-color: var(--surface);
+
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+  }
+
+  .navbar-links-open {
+    display: flex;
+  }
+
+  .navbar-link {
+    width: 100%;
+    min-height: 44px;
+
+    justify-content: flex-start;
+
+    padding: 10px 14px;
+
+    font-size: 0.95rem;
+  }
+
+  .navbar-settings {
+    padding-left: 0;
+
+    border-left: none;
+  }
+
+  .navbar-setting-icon {
+    display: none;
+  }
+}
+
+/* =========================
+   SMALL MOBILE
+========================= */
+
+@media (max-width: 430px) {
+  .navbar-container {
+    width: min(100% - 16px, var(--max-width));
+  }
+
+  .navbar-logo {
+    font-size: 1.05rem;
+  }
+
+  .navbar-right {
+    gap: 8px;
+  }
+
+  .navbar-settings {
+    gap: 8px;
+  }
+
+  .navbar-setting {
+    gap: 4px;
+  }
+
+  .navbar-switch {
+    width: 34px;
+    height: 20px;
+  }
+
+  .navbar-switch-thumb {
+    top: 2px;
+    left: 2px;
+
+    width: 14px;
+    height: 14px;
+  }
+
+  .navbar-switch-active .navbar-switch-thumb {
+    transform: translateX(14px);
+  }
+
+  .navbar-language-label {
+    font-size: 0.65rem;
+  }
+}
+
+/* =========================
+   EXTRA SMALL MOBILE
+========================= */
+
+@media (max-width: 360px) {
+  .navbar-logo {
+    font-size: 1rem;
+  }
+
+  .navbar-language-label:first-child {
+    display: none;
+  }
+
+  .navbar-settings {
+    gap: 6px;
+  }
+
+  .navbar-menu-button {
+    width: 40px;
+    height: 40px;
+
+    padding: 8px;
+  }
+}
